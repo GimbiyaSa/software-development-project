@@ -1,8 +1,8 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import DashboardCards from '../components/DashboardCards';
-import CourseList from '../components/CourseList';
+import DashboardCards from '../components/Stats';
+import CourseList from '../components/Courses';
 import Calendar from '../components/Calendar';
 
 const Dashboard: React.FC = () => {

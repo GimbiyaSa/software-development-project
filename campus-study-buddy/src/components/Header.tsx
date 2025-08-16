@@ -1,18 +1,8 @@
-import React from 'react';
-
-const Header: React.FC = () => {
+export default function Header() {
   return (
-    <header className="flex justify-between items-center">
-      <h1 className="text-2xl font-semibold">Hi Martin!</h1>
-      <div className="flex items-center gap-4">
-        <button aria-label="Notifications" className="p-2 rounded hover:bg-gray-200">🔔</button>
-        <div className="flex items-center gap-2">
-          <img src="https://via.placeholder.com/32" alt="Profile" className="rounded-full w-8 h-8" />
-          <span>Martin Nel ▾</span>
-        </div>
-      </div>
+    <header className="p-6 bg-gradient-to-r from-green-400 to-green-500 text-white rounded-xl m-6">
+      <h1 className="text-2xl font-bold">Hi Martin!</h1>
+      <p>You have completed 5 lessons in the last day. Start your learning today.</p>
     </header>
   );
-};
-
-export default Header;
+}
