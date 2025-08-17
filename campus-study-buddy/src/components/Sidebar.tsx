@@ -69,7 +69,7 @@ export default function Sidebar() {
       {/* Desktop */}
       <aside
         className="hidden md:flex w-64 flex-col 
-                   bg-gradient-to-b from-brand-50 via-white to-brand-50/80
+                   bg-gradient-to-t from-brand-50 via-white to-brand-50/80
                    border-r border-gray-100"
       >
         <div className="px-6 pt-6 pb-4 flex items-center gap-3">
@@ -115,7 +115,7 @@ export default function Sidebar() {
           <aside
             ref={drawerRef}
             className="relative w-72 flex flex-col 
-                       bg-gradient-to-b from-brand-50 via-white to-brand-50/80
+                       bg-gradient-to-t from-brand-50 via-white to-brand-50/80
                        border-r z-50"
             aria-label="Mobile navigation"
           >
