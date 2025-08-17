@@ -2,7 +2,15 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Bell, ChevronDown, User } from "lucide-react";
 
-export default function Header() {
+export default function Header({
+  userName,
+  lessonCount,
+  isLoading = false,
+}: {
+  userName?: string;
+  lessonCount?: number;
+  isLoading?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -13,7 +21,6 @@ export default function Header() {
   const updatePosition = () => {
     const r = buttonRef.current?.getBoundingClientRect();
     if (!r) return;
-    // 8px gap below the button; align right edges
     setPos({
       top: r.bottom + 8 + window.scrollY,
       left: r.right - menuWidth + window.scrollX,
@@ -33,29 +40,73 @@ export default function Header() {
     };
   }, [open]);
 
-  // close on outside click (overlay handles this, but keep as safety)
+  // close on outside click (safety)
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
       if (!open) return;
       if (buttonRef.current && buttonRef.current.contains(e.target as Node)) return;
-      // if click is on the portal menu, ignore; overlay will be below it anyway
     };
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, [open]);
 
+  // Shimmer line component
+  const ShimmerLine = ({ className = "" }: { className?: string }) => (
+    <span className={`shimmer block rounded ${className}`} />
+  );
+
+  const displayName = userName ?? "Student";
+  const displayLessons = lessonCount ?? 0;
+
   return (
     <header className="m-6 md:m-8">
-      {/* Outer wrapper: allows overflow */}
+      {/* local shimmer CSS (scoped to this component render tree) */}
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: -400px 0; }
+          100% { background-position: 400px 0; }
+        }
+        .shimmer {
+          background: linear-gradient(
+            90deg,
+            rgba(229, 231, 235, 0.7) 0%,
+            rgba(243, 244, 246, 0.9) 40%,
+            rgba(229, 231, 235, 0.7) 80%
+          );
+          background-size: 800px 100%;
+          animation: shimmer 1.2s infinite linear;
+        }
+      `}</style>
+
       <div className="relative rounded-2xl shadow-card text-gray-900">
-        {/* Inner wrapper: keeps the pretty rounded gradient */}
         <div className="rounded-2xl overflow-hidden bg-gradient-to-r from-brand-100 via-white to-brand-50 p-6 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Hi Martin!</h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {isLoading ? (
+                  // name shimmer
+                  <ShimmerLine className="h-7 w-40 md:w-56" />
+                ) : (
+                  <>Hi {displayName}!</>
+                )}
+              </h1>
+
               <p className="mt-1 text-sm text-gray-600">
-                You have completed <span className="font-semibold text-brand-700">5 lessons</span> in
-                the last day. Start your learning today.
+                {isLoading ? (
+                  // sentence shimmer: two segments for a natural look
+                  <span className="inline-flex items-center gap-2">
+                    <ShimmerLine className="h-4 w-28" />
+                    <ShimmerLine className="h-4 w-20" />
+                  </span>
+                ) : (
+                  <>
+                    You have completed{" "}
+                    <span className="font-semibold text-brand-700">
+                      {displayLessons} lessons
+                    </span>{" "}
+                    in the last day. Start your learning today.
+                  </>
+                )}
               </p>
             </div>
 
@@ -88,17 +139,15 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Portal: overlay + menu fixed to viewport, so no clipping */}
+      {/* Portal menu */}
       {open &&
         createPortal(
           <>
-            {/* click-away overlay */}
             <button
               aria-label="Close menu"
               className="fixed inset-0 z-[9998] bg-transparent cursor-default"
               onClick={() => setOpen(false)}
             />
-            {/* menu */}
             <ul
               className="fixed z-[9999] w-44 bg-white text-gray-800 rounded-xl shadow-card py-2"
               style={{ top: `${pos.top}px`, left: `${pos.left}px` }}

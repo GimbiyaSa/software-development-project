@@ -76,7 +76,7 @@ export default function Sidebar() {
           <img src={logo} alt="Campus Study Buddy" className="w-10 h-10 rounded-lg shadow-soft" />
           <div>
             <h2 className="font-bold">Campus Study Buddy</h2>
-            <p className="text-xs text-gray-500">Learn from home</p>
+            <p className="text-xs text-gray-500">Your study companion</p>
           </div>
         </div>
 
