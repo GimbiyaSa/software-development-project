@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import DashboardCards from '../components/Stats';
+import DashboardCards from '../components/BuddySearch';
 import CourseList from '../components/Courses';
 import Calendar from '../components/Calendar';
 

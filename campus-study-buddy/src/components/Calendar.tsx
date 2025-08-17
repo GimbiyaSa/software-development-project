@@ -25,20 +25,6 @@ export default function CalendarWidget() {
           ))}
         </ul>
       </div>
-
-      <div>
-        <h3 className="font-semibold text-gray-900 mb-2">Payment History</h3>
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-600">Wireframe & Prototype</span>
-            <span className="font-semibold text-gray-900">$120</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">MSc in Machine Learning</span>
-            <span className="font-semibold text-gray-900">$140</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
